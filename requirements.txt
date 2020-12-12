@@ -1,0 +1,6 @@
+# Function dependencies, for example:
+# package>=version
+facebook-sdk
+pandas
+matplotlib
+google.cloud
