@@ -1,0 +1,17 @@
+nodered docker image
+https://nodered.org/docs/getting-started/docker
+
+deploying nodered on kube clusters
+https://medium.com/google-cloud/deploy-your-node-red-environment-onto-kubernetes-clusters-using-google-cloud-platform-2e4775c2e79f
+
+
+deployment creation
+
+kubectl create deployment nodered --image=eu.gcr.io/iot-project-group6/nodered-gcp:1.0.2 --dry-run=client -o yaml > dep-nodered.yaml
+
+
+connect kubernetes cluster
+gcloud container clusters get-credentials iot --zone europe-west1-b --project iot-project-group6
+
+port forward
+kubectl -n nodered port-forward deployment/nodered 1880:1880
