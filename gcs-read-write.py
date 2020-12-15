@@ -25,6 +25,7 @@ def read_write_gcs(event, context):
     pages_df = pd.DataFrame(pages)
     #print(pages_df)
 
+    
     #reading category.csv file from storage
     storage_client = storage.Client()
     bucket_name = "category_csv_file"
@@ -47,6 +48,14 @@ def read_write_gcs(event, context):
     cat_csv.seek(0)
     storage_client.get_bucket('category_csv_file').blob('fb_category_count.csv').upload_from_file(cat_csv, content_type='text/csv')
 
+    #top 10 pages based on fan count
+    top_ten = pages_df.nlargest(10, 'fan_count')[["name","fan_count"]]
+    top_ten_csv = StringIO()
+    top_ten.to_csv(top_ten_csv)
+    top_ten_csv.seek(0)
+    storage_client.get_bucket('category_csv_file').blob('top_ten_pages.csv').upload_from_file(top_ten_csv, content_type='text/csv')
+
+
     #analysis of liked pages based on fan count
     df_fan_count = merged_df[["name","fan_count","MainCategory"]]
     df_fan_count["fan_count"] = pd.cut(df_fan_count["fan_count"], [0,500,5000,10000,100000000],labels= ['low(<500)','average(501-5000)','high(5001-10000)','very high(>10000)'])
@@ -59,5 +68,3 @@ def read_write_gcs(event, context):
     fan_df.to_csv(fan_count)
     fan_count.seek(0)
     storage_client.get_bucket('category_csv_file').blob('fan_count.csv').upload_from_file(fan_count, content_type='text/csv')
-
-    
