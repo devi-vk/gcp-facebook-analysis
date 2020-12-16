@@ -5,6 +5,8 @@ deploying nodered on kube clusters
 https://medium.com/google-cloud/deploy-your-node-red-environment-onto-kubernetes-clusters-using-google-cloud-platform-2e4775c2e79f
 
 
+
+
 deployment creation
 
 kubectl create deployment nodered --image=eu.gcr.io/iot-project-group6/nodered-gcp:1.0.2 --dry-run=client -o yaml > dep-nodered.yaml
@@ -15,3 +17,5 @@ gcloud container clusters get-credentials iot --zone europe-west1-b --project io
 
 port forward
 kubectl -n nodered port-forward deployment/nodered 1880:1880
+
+kubectl expose deployment -n nodered nodered --type="LoadBalancer" 
