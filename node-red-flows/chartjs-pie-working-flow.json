@@ -1,0 +1,140 @@
+[
+    {
+        "id": "d9a4984e.1f09b8",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9951c02.e14bb4",
+        "type": "inject",
+        "z": "d9a4984e.1f09b8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "4a59fd35.85c8c4"
+            ]
+        ]
+    },
+    {
+        "id": "4a59fd35.85c8c4",
+        "type": "google-cloud-gcs-read",
+        "z": "d9a4984e.1f09b8",
+        "account": "",
+        "keyFilename": "/etc/secrets/iot-project-group6-7245b6b6144b.json",
+        "filename": "gs://category_csv_file/category_count.json",
+        "list": false,
+        "name": "",
+        "x": 280,
+        "y": 240,
+        "wires": [
+            [
+                "4fe86e18.f9754",
+                "115130a2.e9d7bf",
+                "c8ce7957.90e458"
+            ]
+        ]
+    },
+    {
+        "id": "4fe86e18.f9754",
+        "type": "function",
+        "z": "d9a4984e.1f09b8",
+        "name": "",
+        "func": "let array = [];\nlet msg2 = msg.payload;\nvar msg1 = JSON.parse(msg2.toString());\n\n\n\nfor(var key in msg1){\n  //console.log(msg[key]);\n  let dict = {};\n  dict['x'] = key;\n  dict['y'] = msg1[key];\n  array.push(dict);\n  }\n\nmsg.payload = array;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "3f785a76.541ec6"
+            ]
+        ]
+    },
+    {
+        "id": "3f785a76.541ec6",
+        "type": "debug",
+        "z": "d9a4984e.1f09b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "115130a2.e9d7bf",
+        "type": "debug",
+        "z": "d9a4984e.1f09b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c8ce7957.90e458",
+        "type": "function",
+        "z": "d9a4984e.1f09b8",
+        "name": "",
+        "func": "let array = [];\nlet msg2 = msg.payload;\nvar msg1 = JSON.parse(msg2.toString());\n\n\n\nfor(var key in msg1){\n  //console.log(msg[key]);\n  let dict = {};\n  dict['x'] = key;\n  dict['y'] = msg1[key];\n  array.push(dict);\n  }\n\nmsg.payload= { \"channel\": \"POB\", \n                \"color\": [\"Red\", \"Yellow\", \"Blue\"], \n                \"dataset\": array \n    \n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 460,
+        "y": 320,
+        "wires": [
+            [
+                "46cd8da2.1183e4"
+            ]
+        ]
+    },
+    {
+        "id": "46cd8da2.1183e4",
+        "type": "chartjs-pie",
+        "z": "d9a4984e.1f09b8",
+        "name": "piechart",
+        "path": "test",
+        "charttitle": "Chart title",
+        "xaxis": "Item",
+        "yaxis": "Value",
+        "x": 660,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    }
+]
