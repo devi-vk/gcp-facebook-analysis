@@ -6,7 +6,7 @@ import os
 from io import StringIO
 import gcsfs
 
-apikey = "EAAFhij0hmUMBAN99mNbHeKb0GLV8MVE6rPOPsAXLhpQzyvn8J7TQfo5BMcARdPh7SA7SVooHWzr5RnRXVb47ZBmbntFQ3TgZCpZAXsmC6ljV36I6DKCzhIbA9SW4bwQn8qF2ipJQZBL1yu0fKnHvYwkSJxda3eGBEs6Ni7XOBFzGZAz2AGpCj"
+apikey = "apikey here!"
 
 def all_complete(event, context):
 
